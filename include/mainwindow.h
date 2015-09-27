@@ -21,6 +21,8 @@ public:
     MainWindow();
     bool createConnection();
     void initMenu();
+    void create_new_histogram(QString x_variable);
+    void create_new_scatter(QString x_variable, QString y_variable);
 
 private slots:
     void connect2db();
@@ -41,6 +43,7 @@ private:
     QPlainTextEdit *plotConfig;
     TQtWidget *plotView;
     QPushButton *showPlotButton;
+    QPushButton *addPlotButton;
     
     QString dbhost;
     int dbport;

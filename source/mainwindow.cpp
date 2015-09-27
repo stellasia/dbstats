@@ -12,9 +12,11 @@
 #include <QDir>
 
 #include "TGraph.h" 
+#include "TAxis.h" 
 
 #include "mainwindow.h"
 #include "dialognewconnection.h"
+#include "dialognewplot.h"
 
 
 MainWindow::MainWindow() {
@@ -33,10 +35,12 @@ MainWindow::MainWindow() {
     plotConfig = new QPlainTextEdit;
     plotConfig->setPlainText("Configure plots here");
     plotView = new TQtWidget(0, "");
-    showPlotButton = new QPushButton(tr("Plot"));
+    showPlotButton = new QPushButton(tr("Show/Update plot"));
+    addPlotButton = new QPushButton(tr("Add Plot"));
 
     connect(runQueryButton, SIGNAL(clicked()), this, SLOT(runQuery()));
     connect(showPlotButton, SIGNAL(clicked()), this, SLOT(showPlot()));
+    connect(addPlotButton, SIGNAL(clicked()), this, SLOT(addPlot()));
 
     QWidget *centralWidget = new QWidget;
 
@@ -50,7 +54,10 @@ MainWindow::MainWindow() {
     leftLayout->addWidget(resultView);
     QVBoxLayout *rightLayout = new QVBoxLayout;
     rightLayout->addWidget(plotConfig);
-    rightLayout->addWidget(showPlotButton);
+    QHBoxLayout *plot_config = new QHBoxLayout;
+    plot_config->addWidget(addPlotButton);
+    plot_config->addWidget(showPlotButton);
+    rightLayout->addLayout(plot_config);
     rightLayout->addWidget(plotView);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
@@ -121,7 +128,6 @@ void MainWindow::runQuery() {
 }
 
 void MainWindow::showPlot() {
-    addPlot();
     plotView->GetCanvas()->cd(); 
     for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
 	if (i==0)
@@ -175,20 +181,39 @@ void MainWindow::savePlotAs() {
 void MainWindow::addPlot() {
     if (!model)
 	return;
+
+    DialogNewPlot *dialog = new DialogNewPlot(model);
+    if (dialog->exec()) {
+	QString plot_type = dialog->get_plot_type();
+	QString x_variable = dialog->get_x_variable();
+	QString y_variable = dialog->get_y_variable();
+
+	if (plot_type=="Histogram")
+	    create_new_histogram(x_variable);
+	else if (plot_type=="Scatter")
+	    create_new_scatter(x_variable, y_variable);
+    }
+}
+
+
+void MainWindow::create_new_histogram(QString x_variable) {
+
+}
+
+void MainWindow::create_new_scatter(QString x_variable, QString y_variable) {
     int Nobs = model->rowCount();
     double xvalues[Nobs];
     double yvalues[Nobs];
-    QString xcol = "category";
-    QString ycol = "id";
     for (int i = 0; i < Nobs; ++i) {
-        double x = model->record(i).value(xcol).toDouble();
-        double y = model->record(i).value(ycol).toDouble();
-	xvalues[i] = x;
-	yvalues[i] = y;
+        double x = model->record(i).value(x_variable).toDouble();
+        double y = model->record(i).value(y_variable).toDouble();
+    	xvalues[i] = x;
+    	yvalues[i] = y;
     }
     TGraph *mygraph; 
     mygraph  = new TGraph(Nobs,xvalues,yvalues); 
     mygraph->SetMarkerStyle(20); 
-    //mygraph->Draw("AP"); 
+    mygraph->GetXaxis()->SetTitle(x_variable.toStdString().c_str());
+    mygraph->GetYaxis()->SetTitle(y_variable.toStdString().c_str());
     objectsToPlot.push_back(mygraph);
 }
