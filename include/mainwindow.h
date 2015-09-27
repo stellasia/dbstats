@@ -6,6 +6,7 @@
 #include <QPlainTextEdit>
 #include <QTableView>
 #include <QPushButton>
+#include <QSqlQueryModel>
 
 #include "TQtWidget.h" 
 
@@ -22,22 +23,26 @@ private slots:
     void connect2db();
     void runQuery();
     void showPlot();
+    void saveProjectAs();
+    void saveProject();
+    void savePlotAs();
 
 private:
-  QPlainTextEdit *queryEdit;
-  QTableView *resultView;
-  QPushButton *runQueryButton;
-  QLineEdit *queryLimit;
-
-  QPlainTextEdit *plotConfig;
-  TQtWidget *plotView;
-  QPushButton *showPlotButton;
-
-  QString dbhost;
-  int dbport;
-  QString dbname;
-  QString dbuser;
-  QString dbpasswd;
+    QSqlQueryModel *model;
+    QPlainTextEdit *queryEdit;
+    QTableView *resultView;
+    QPushButton *runQueryButton;
+    QLineEdit *queryLimit;
+    
+    QPlainTextEdit *plotConfig;
+    TQtWidget *plotView;
+    QPushButton *showPlotButton;
+    
+    QString dbhost;
+    int dbport;
+    QString dbname;
+    QString dbuser;
+    QString dbpasswd;
 
 };
 

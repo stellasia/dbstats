@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include <QSqlQueryModel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -8,6 +7,7 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QLabel>
+#include <QSqlRecord>
 
 #include "TGraph.h" 
 
@@ -68,7 +68,21 @@ void MainWindow::initMenu() {
     QAction *connectDB = new QAction(tr("Database connection"), this);
     file->addAction(connectDB);
     connect(connectDB, SIGNAL(triggered()), this, SLOT(connect2db()));
+    file->addSeparator();
 
+    QAction *save_project_as = new QAction(tr("Save Project As"), this);
+    file->addAction(save_project_as);
+    connect(save_project_as, SIGNAL(triggered()), this, SLOT(saveProjectAs()));
+
+    QAction *save_project = new QAction(tr("Save Project"), this);
+    file->addAction(save_project);
+    connect(save_project, SIGNAL(triggered()), this, SLOT(saveProject()));
+
+    QAction *save_plot_as = new QAction(tr("Save Plot As"), this);
+    file->addAction(save_plot_as);
+    connect(save_plot_as, SIGNAL(triggered()), this, SLOT(savePlotAs()));
+
+    file->addSeparator();
     QAction *quit = new QAction(tr("Quit"), this);
     quit->setShortcut(tr("CTRL+Q"));
     file->addAction(quit);
@@ -98,18 +112,28 @@ void MainWindow::runQuery() {
     if (limit > 0)
 	query = QString(query + " LIMIT %1").arg(limit);
 
-    QSqlQueryModel *model = new QSqlQueryModel;
+    model = new QSqlQueryModel;
     model->setQuery(query);
     //std::cout << model->rowCount() << std::endl;
     resultView->setModel(model);
 }
 
 void MainWindow::showPlot() {
+    int Nobs = model->rowCount();
+    double xvalues[Nobs];
+    double yvalues[Nobs];
+    QString xcol = "category";
+    QString ycol = "id";
+    for (int i = 0; i < Nobs; ++i) {
+        double x = model->record(i).value(xcol).toDouble();
+        double y = model->record(i).value(ycol).toDouble();
+	xvalues[i] = x;
+	yvalues[i] = y;
+    }
+
     plotView->GetCanvas()->cd(); 
     TGraph *mygraph; 
-    float x[3] = {1,2,3}; 
-    float y[3] = {1.5, 3.0, 4.5}; 
-    mygraph  = new TGraph(3,x,y); 
+    mygraph  = new TGraph(Nobs,xvalues,yvalues); 
     mygraph->SetMarkerStyle(20); 
     mygraph->Draw("AP"); 
     plotView->GetCanvas()->Update(); 
@@ -131,4 +155,23 @@ bool MainWindow::createConnection() {
     }
 
     return true;
+}
+
+
+void MainWindow::saveProjectAs() {
+    QMessageBox::warning(0, tr("Not yet implemented"),
+			 tr("This action is not yet possible."), 
+			 QMessageBox::Ok);
+}
+
+void MainWindow::saveProject() {
+    QMessageBox::warning(0, tr("Not yet implemented"),
+			 tr("This action is not yet possible."), 
+			 QMessageBox::Ok);
+}
+
+void MainWindow::savePlotAs() {
+    QMessageBox::warning(0, tr("Not yet implemented"),
+			 tr("This action is not yet possible."), 
+			 QMessageBox::Ok);
 }
