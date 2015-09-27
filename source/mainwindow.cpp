@@ -81,8 +81,8 @@ void MainWindow::initMenu() {
     QAction *save_plot_as = new QAction(tr("Save Plot As"), this);
     file->addAction(save_plot_as);
     connect(save_plot_as, SIGNAL(triggered()), this, SLOT(savePlotAs()));
-
     file->addSeparator();
+
     QAction *quit = new QAction(tr("Quit"), this);
     quit->setShortcut(tr("CTRL+Q"));
     file->addAction(quit);
@@ -119,23 +119,14 @@ void MainWindow::runQuery() {
 }
 
 void MainWindow::showPlot() {
-    int Nobs = model->rowCount();
-    double xvalues[Nobs];
-    double yvalues[Nobs];
-    QString xcol = "category";
-    QString ycol = "id";
-    for (int i = 0; i < Nobs; ++i) {
-        double x = model->record(i).value(xcol).toDouble();
-        double y = model->record(i).value(ycol).toDouble();
-	xvalues[i] = x;
-	yvalues[i] = y;
-    }
-
+    addPlot();
     plotView->GetCanvas()->cd(); 
-    TGraph *mygraph; 
-    mygraph  = new TGraph(Nobs,xvalues,yvalues); 
-    mygraph->SetMarkerStyle(20); 
-    mygraph->Draw("AP"); 
+    for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
+	if (i==0)
+	    objectsToPlot[i]->Draw("AP");
+	else
+	    objectsToPlot[i]->Draw("P same");
+    }
     plotView->GetCanvas()->Update(); 
 }
 
@@ -157,7 +148,6 @@ bool MainWindow::createConnection() {
     return true;
 }
 
-
 void MainWindow::saveProjectAs() {
     QMessageBox::warning(0, tr("Not yet implemented"),
 			 tr("This action is not yet possible."), 
@@ -174,4 +164,23 @@ void MainWindow::savePlotAs() {
     QMessageBox::warning(0, tr("Not yet implemented"),
 			 tr("This action is not yet possible."), 
 			 QMessageBox::Ok);
+}
+
+void MainWindow::addPlot() {
+    int Nobs = model->rowCount();
+    double xvalues[Nobs];
+    double yvalues[Nobs];
+    QString xcol = "category";
+    QString ycol = "id";
+    for (int i = 0; i < Nobs; ++i) {
+        double x = model->record(i).value(xcol).toDouble();
+        double y = model->record(i).value(ycol).toDouble();
+	xvalues[i] = x;
+	yvalues[i] = y;
+    }
+    TGraph *mygraph; 
+    mygraph  = new TGraph(Nobs,xvalues,yvalues); 
+    mygraph->SetMarkerStyle(20); 
+    //mygraph->Draw("AP"); 
+    objectsToPlot.push_back(mygraph);
 }

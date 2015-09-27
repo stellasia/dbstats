@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <vector>
+
 #include <QApplication>
 #include <QMainWindow>
 #include <QPlainTextEdit>
@@ -26,6 +28,7 @@ private slots:
     void saveProjectAs();
     void saveProject();
     void savePlotAs();
+    void addPlot();
 
 private:
     QSqlQueryModel *model;
@@ -43,6 +46,8 @@ private:
     QString dbname;
     QString dbuser;
     QString dbpasswd;
+
+    std::vector<TObject*> objectsToPlot;
 
 };
 
