@@ -1,11 +1,11 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
 #include <QApplication>
 #include <QMainWindow>
 #include <QPlainTextEdit>
 #include <QTableView>
 #include <QPushButton>
-
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
 #include "TQtWidget.h" 
 
@@ -27,6 +27,7 @@ private:
   QPlainTextEdit *queryEdit;
   QTableView *resultView;
   QPushButton *runQueryButton;
+  QLineEdit *queryLimit;
 
   QPlainTextEdit *plotConfig;
   TQtWidget *plotView;

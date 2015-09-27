@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
+#include <QLabel>
 
 #include "TGraph.h" 
 
@@ -15,14 +16,17 @@
 
 
 MainWindow::MainWindow() {
-
+    
     initMenu();
-
+    
     queryEdit = new QPlainTextEdit;
-    queryEdit->setPlainText("select * from products;");
+    queryEdit->setPlainText("select * from products ");
     resultView = new QTableView;
     runQueryButton = new QPushButton(tr("Run"));
-
+    QLabel *label_querylimit = new QLabel(tr("Limit"));
+    queryLimit = new QLineEdit;
+    queryLimit->setValidator( new QIntValidator(0, 1000000, this) );
+    queryLimit->setText("1000");
     plotConfig = new QPlainTextEdit;
     plotConfig->setPlainText("Configure plots here");
     plotView = new TQtWidget(0, "");
@@ -35,7 +39,11 @@ MainWindow::MainWindow() {
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
     leftLayout->addWidget(queryEdit);
-    leftLayout->addWidget(runQueryButton);
+    QHBoxLayout *config = new QHBoxLayout;
+    config->addWidget(label_querylimit);
+    config->addWidget(queryLimit);
+    config->addWidget(runQueryButton);
+    leftLayout->addLayout(config);
     leftLayout->addWidget(resultView);
     QVBoxLayout *rightLayout = new QVBoxLayout;
     rightLayout->addWidget(plotConfig);
@@ -81,6 +89,11 @@ void MainWindow::connect2db() {
 
 void MainWindow::runQuery() {
     QString query = queryEdit->toPlainText();
+
+    int limit = queryLimit->text().toInt();
+    if (limit > 0)
+	query = QString(query + " LIMIT %1").arg(limit);
+
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery(query);
     //std::cout << model->rowCount() << std::endl;
