@@ -2,6 +2,7 @@
  */
 
 #include <QApplication>
+#include "TQtWidget.h" 
 
 #include "mainwindow.h"
 

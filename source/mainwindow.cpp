@@ -1,5 +1,14 @@
-#include <QtWidgets>
+#include <iostream>
+
+//#include <QtWidget>
 #include <QSqlQueryModel>
+#include <QVBoxLayout>
+#include <QMessageBox>
+
+#include "TQtWidget.h" 
+#include "TGraph.h" 
+#include "TCanvas.h" 
+
 
 #include "mainwindow.h"
 
@@ -11,6 +20,16 @@ MainWindow::MainWindow()
     resultView = new QTableView;
     runQueryButton = new QPushButton(tr("Run"));
 
+    TQtWidget *MyWidget= new TQtWidget(0,"MyWidget"); 
+    MyWidget->GetCanvas()->cd(); 
+    TGraph *mygraph; 
+    float x[3] = {1,2,3}; 
+    float y[3] = {1.5, 3.0, 4.5}; 
+    mygraph  = new TGraph(3,x,y); 
+    mygraph->SetMarkerStyle(20); 
+    mygraph->Draw("APL"); 
+    MyWidget->GetCanvas()->Update(); 
+
     connect(runQueryButton, SIGNAL(clicked()), this, SLOT(runQuery()));
 
     QWidget *centralWidget = new QWidget;
@@ -18,6 +37,7 @@ MainWindow::MainWindow()
     mainLayout->addWidget(queryEdit);
     mainLayout->addWidget(runQueryButton);
     mainLayout->addWidget(resultView);
+    mainLayout->addWidget(MyWidget);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
 
@@ -32,6 +52,8 @@ void MainWindow::runQuery() {
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery(query);
 
+    //std::cout << model->rowCount() << std::endl;
+
     resultView->setModel(model);
 }
 
@@ -45,8 +67,8 @@ bool MainWindow::createConnection()
     db.setUserName("postgres");
     db.setPassword("postgres");
     if (!db.open()) {
-        QMessageBox::critical(0, qApp->tr("Cannot open database"),
-			      qApp->tr("Unable to establish a connection to your database, "
+        QMessageBox::critical(0, tr("Cannot open database"),
+				  tr("Unable to establish a connection to your database, "
 				       "please check the parameters. \r\n"
 				       "Click Cancel to exit."), QMessageBox::Cancel);
         return false;
