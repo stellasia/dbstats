@@ -8,6 +8,8 @@
 #include <QAction>
 #include <QLabel>
 #include <QSqlRecord>
+#include <QFileDialog>
+#include <QDir>
 
 #include "TGraph.h" 
 
@@ -161,12 +163,18 @@ void MainWindow::saveProject() {
 }
 
 void MainWindow::savePlotAs() {
-    QMessageBox::warning(0, tr("Not yet implemented"),
-			 tr("This action is not yet possible."), 
-			 QMessageBox::Ok);
+    QString filename = QFileDialog::getSaveFileName(this, 
+						    tr("Select a file..."), 
+						    QDir::homePath()
+						    );
+    if (filename == "")
+	return;
+    plotView->GetCanvas()->SaveAs(filename.toStdString().c_str()); 
 }
 
 void MainWindow::addPlot() {
+    if (!model)
+	return;
     int Nobs = model->rowCount();
     double xvalues[Nobs];
     double yvalues[Nobs];
