@@ -21,6 +21,7 @@ MainWindow::MainWindow() {
     
     queryEdit = new QPlainTextEdit;
     queryEdit->setPlainText("select * from products ");
+    queryEdit->setReadOnly(true);
     resultView = new QTableView;
     runQueryButton = new QPushButton(tr("Run"));
     QLabel *label_querylimit = new QLabel(tr("Limit"));
@@ -83,7 +84,10 @@ void MainWindow::connect2db() {
         dbname=dialog->get_dbname();
         dbuser=dialog->get_dbuser();
         dbpasswd=dialog->get_dbpasswd();
-        createConnection();
+        if (createConnection())
+	    queryEdit->setReadOnly(false);
+	else
+	    queryEdit->setReadOnly(true);
     }
 }
 
