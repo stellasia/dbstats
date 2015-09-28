@@ -11,12 +11,14 @@
 #include <QFileDialog>
 #include <QDir>
 
+#include "TStyle.h"
 #include "TGraph.h" 
 #include "TAxis.h" 
 
 #include "mainwindow.h"
 #include "dialognewconnection.h"
 #include "dialognewplot.h"
+#include "sqlsyntaxhighlighter.h"
 
 
 MainWindow::MainWindow() {
@@ -26,6 +28,9 @@ MainWindow::MainWindow() {
     queryEdit = new QPlainTextEdit;
     queryEdit->setPlainText("select * from products ");
     queryEdit->setReadOnly(true);
+
+    SqlSyntaxHighlighter *highlighter = new SqlSyntaxHighlighter(queryEdit->document());
+
     resultView = new QTableView;
     runQueryButton = new QPushButton(tr("Run"));
     QLabel *label_querylimit = new QLabel(tr("Limit"));
@@ -128,6 +133,7 @@ void MainWindow::runQuery() {
 }
 
 void MainWindow::showPlot() {
+    gStyle->SetOptTitle(0);
     plotView->GetCanvas()->cd(); 
     for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
 	if (i==0)
@@ -187,11 +193,14 @@ void MainWindow::addPlot() {
 	QString plot_type = dialog->get_plot_type();
 	QString x_variable = dialog->get_x_variable();
 	QString y_variable = dialog->get_y_variable();
+	//QString line_color = dialog->get_line_color();
 
 	if (plot_type=="Histogram")
 	    create_new_histogram(x_variable);
 	else if (plot_type=="Scatter")
 	    create_new_scatter(x_variable, y_variable);
+
+	//addPlotButton();
     }
 }
 
@@ -217,3 +226,4 @@ void MainWindow::create_new_scatter(QString x_variable, QString y_variable) {
     mygraph->GetYaxis()->SetTitle(y_variable.toStdString().c_str());
     objectsToPlot.push_back(mygraph);
 }
+
