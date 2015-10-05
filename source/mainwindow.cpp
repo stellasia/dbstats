@@ -19,6 +19,7 @@
 #include "dialognewconnection.h"
 #include "dialognewplot.h"
 #include "sqlsyntaxhighlighter.h"
+#include "histitem.h"
 
 
 MainWindow::MainWindow() {
@@ -37,8 +38,8 @@ MainWindow::MainWindow() {
     queryLimit = new QLineEdit;
     queryLimit->setValidator( new QIntValidator(0, 1000000, this) );
     queryLimit->setText("1000");
-    plotConfig = new QPlainTextEdit;
-    plotConfig->setPlainText("Configure plots here");
+
+    plotConfig = new HistList;
     plotView = new TQtWidget(0, "");
     showPlotButton = new QPushButton(tr("Show/Update plot"));
     addPlotButton = new QPushButton(tr("Add Plot"));
@@ -202,6 +203,10 @@ void MainWindow::addPlot() {
 
 	//addPlotButton();
     }
+
+    HistItem *item1 = new HistItem(plotConfig, "Coucou", "Bisosu", false);
+    plotConfig->addItem(item1);
+
 }
 
 

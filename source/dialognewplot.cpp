@@ -85,3 +85,7 @@ QString DialogNewPlot::get_x_variable() {
 QString DialogNewPlot::get_y_variable() {
     return combo_y_variable->currentText();
 }
+
+// QString DialogNewPlot::get_line_color() {
+//     return edit_line_color->currentText();
+// }

@@ -5,12 +5,15 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QWidget>
 #include <QPlainTextEdit>
 #include <QTableView>
 #include <QPushButton>
 #include <QSqlQueryModel>
 
 #include "TQtWidget.h" 
+
+#include "histlist.h"
 
 
 class MainWindow : public QMainWindow
@@ -40,7 +43,7 @@ private:
     QPushButton *runQueryButton;
     QLineEdit *queryLimit;
     
-    QPlainTextEdit *plotConfig;
+    HistList *plotConfig;
     TQtWidget *plotView;
     QPushButton *showPlotButton;
     QPushButton *addPlotButton;
