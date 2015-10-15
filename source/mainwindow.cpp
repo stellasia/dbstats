@@ -18,7 +18,6 @@
 #include "mainwindow.h"
 #include "dialognewconnection.h"
 #include "dialognewplot.h"
-#include "sqlsyntaxhighlighter.h"
 #include "histitem.h"
 
 
@@ -26,38 +25,27 @@ MainWindow::MainWindow() {
     
     initMenu();
     
-    queryEdit = new QPlainTextEdit;
-    queryEdit->setPlainText("select * from products ");
-    queryEdit->setReadOnly(true);
+    query_panel = new QueryPanel;
+    stats_panel = new StatsPanel;
 
-    SqlSyntaxHighlighter *highlighter = new SqlSyntaxHighlighter(queryEdit->document());
-
-    resultView = new QTableView;
-    runQueryButton = new QPushButton(tr("Run"));
-    QLabel *label_querylimit = new QLabel(tr("Limit"));
-    queryLimit = new QLineEdit;
-    queryLimit->setValidator( new QIntValidator(0, 1000000, this) );
-    queryLimit->setText("1000");
+    connect(query_panel, 
+	    SIGNAL(modelUpdated(QSqlQueryModel *)), 
+	    this, 
+	    SLOT(onModelUpdate(QSqlQueryModel *)));
 
     plotConfig = new HistList;
     plotView = new TQtWidget(0, "");
     showPlotButton = new QPushButton(tr("Show/Update plot"));
     addPlotButton = new QPushButton(tr("Add Plot"));
 
-    connect(runQueryButton, SIGNAL(clicked()), this, SLOT(runQuery()));
     connect(showPlotButton, SIGNAL(clicked()), this, SLOT(showPlot()));
     connect(addPlotButton, SIGNAL(clicked()), this, SLOT(addPlot()));
 
     QWidget *centralWidget = new QWidget;
 
     QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(queryEdit);
-    QHBoxLayout *config = new QHBoxLayout;
-    config->addWidget(label_querylimit);
-    config->addWidget(queryLimit);
-    config->addWidget(runQueryButton);
-    leftLayout->addLayout(config);
-    leftLayout->addWidget(resultView);
+    leftLayout->addWidget(query_panel);
+    leftLayout->addWidget(stats_panel);
     QVBoxLayout *rightLayout = new QVBoxLayout;
     rightLayout->addWidget(plotConfig);
     QHBoxLayout *plot_config = new QHBoxLayout;
@@ -114,23 +102,10 @@ void MainWindow::connect2db() {
         dbuser=dialog->get_dbuser();
         dbpasswd=dialog->get_dbpasswd();
         if (createConnection())
-	    queryEdit->setReadOnly(false);
+	    query_panel->unlock();
 	else
-	    queryEdit->setReadOnly(true);
+	    query_panel->lock();
     }
-}
-
-void MainWindow::runQuery() {
-    QString query = queryEdit->toPlainText();
-
-    int limit = queryLimit->text().toInt();
-    if (limit > 0)
-	query = QString(query + " LIMIT %1").arg(limit);
-
-    model = new QSqlQueryModel;
-    model->setQuery(query);
-    //std::cout << model->rowCount() << std::endl;
-    resultView->setModel(model);
 }
 
 void MainWindow::showPlot() {
@@ -159,7 +134,6 @@ bool MainWindow::createConnection() {
 				 "Click Cancel to exit."), QMessageBox::Cancel);
 	return false;
     }
-
     return true;
 }
 
@@ -232,3 +206,7 @@ void MainWindow::create_new_scatter(QString x_variable, QString y_variable) {
     objectsToPlot.push_back(mygraph);
 }
 
+
+void MainWindow::onModelUpdate(QSqlQueryModel *model) {
+    stats_panel->onModelUpdate(model);
+}

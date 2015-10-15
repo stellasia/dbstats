@@ -6,7 +6,6 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QWidget>
-#include <QPlainTextEdit>
 #include <QTableView>
 #include <QPushButton>
 #include <QSqlQueryModel>
@@ -14,6 +13,8 @@
 #include "TQtWidget.h" 
 
 #include "histlist.h"
+#include "querypanel.h"
+#include "statspanel.h"
 
 
 class MainWindow : public QMainWindow
@@ -29,20 +30,18 @@ public:
 
 private slots:
     void connect2db();
-    void runQuery();
     void showPlot();
     void saveProjectAs();
     void saveProject();
     void savePlotAs();
     void addPlot();
+    void onModelUpdate(QSqlQueryModel *);
 
 private:
     QSqlQueryModel *model;
-    QPlainTextEdit *queryEdit;
-    QTableView *resultView;
-    QPushButton *runQueryButton;
-    QLineEdit *queryLimit;
-    
+    QueryPanel *query_panel;
+    StatsPanel *stats_panel;
+
     HistList *plotConfig;
     TQtWidget *plotView;
     QPushButton *showPlotButton;
