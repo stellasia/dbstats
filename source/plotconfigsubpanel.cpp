@@ -6,7 +6,7 @@
 
 PlotConfigSubpanel::PlotConfigSubpanel(QWidget *parent) {
 
-    w = new QWidget;
+    plot_config = new PlotConfig;
     clear_plot_button = new QPushButton(tr("Clear"));
     draw_plot_button = new QPushButton(tr("Draw"));
 
@@ -19,7 +19,7 @@ PlotConfigSubpanel::PlotConfigSubpanel(QWidget *parent) {
     blayout->addWidget(clear_plot_button);
     blayout->addWidget(draw_plot_button);
     QVBoxLayout *vlayout = new QVBoxLayout;
-    vlayout->addWidget(w);
+    vlayout->addWidget(plot_config);
     vlayout->addLayout(blayout);
 
     setLayout(vlayout);
@@ -27,12 +27,13 @@ PlotConfigSubpanel::PlotConfigSubpanel(QWidget *parent) {
 
 
 void PlotConfigSubpanel::onModelUpdate(QSqlQueryModel *pmodel) {
-    model = pmodel;
+    //model = pmodel;
+    plot_config->onModelUpdate(pmodel);
 }
 
 
 void PlotConfigSubpanel::drawPlot() {
-
+    
 }
 
 void PlotConfigSubpanel::clearPlot() {

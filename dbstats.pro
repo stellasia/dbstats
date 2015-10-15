@@ -20,7 +20,7 @@ QMAKE_CFLAGS += -std=c++11
 QMAKE_LFLAGS += -std=c++11
 
 # Input
-SOURCES += main.cpp source/mainwindow.cpp source/dialognewconnection.cpp source/sqlsyntaxhighlighter.cpp  source/querypanel.cpp source/statspanel.cpp source/plotpanel.cpp source/plotconfigsubpanel.cpp source/plotdrawingsubpanel.cpp
-HEADERS += include/mainwindow.h  include/dialognewconnection.h include/sqlsyntaxhighlighter.h include/querypanel.h include/statspanel.h include/plotpanel.h include/plotconfigsubpanel.h include/plotdrawingsubpanel.h
+SOURCES += main.cpp source/mainwindow.cpp source/dialognewconnection.cpp source/sqlsyntaxhighlighter.cpp  source/querypanel.cpp source/statspanel.cpp source/plotpanel.cpp source/plotconfigsubpanel.cpp source/plotdrawingsubpanel.cpp source/plotconfig.cpp
+HEADERS += include/defs.h include/mainwindow.h  include/dialognewconnection.h include/sqlsyntaxhighlighter.h include/querypanel.h include/statspanel.h include/plotpanel.h include/plotconfigsubpanel.h include/plotdrawingsubpanel.h include/plotconfig.h 
 
 

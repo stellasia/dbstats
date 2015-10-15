@@ -5,6 +5,8 @@
 #include <QSqlQueryModel>
 #include <QPushButton>
 
+#include "plotconfig.h"
+
 
 class PlotConfigSubpanel : public QWidget
 {
@@ -14,13 +16,15 @@ public:
     PlotConfigSubpanel(QWidget *parent = 0);
 
 private slots:
-    void onModelUpdate(QSqlQueryModel *pmodel);
     void drawPlot();
     void clearPlot();
 
+public slots:
+    void onModelUpdate(QSqlQueryModel *pmodel);
+
 private:
     QSqlQueryModel *model;
-    QWidget *w;
+    PlotConfig *plot_config;
     QPushButton *draw_plot_button;
     QPushButton *clear_plot_button;
 };
