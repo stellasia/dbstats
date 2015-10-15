@@ -10,11 +10,9 @@
 #include <QPushButton>
 #include <QSqlQueryModel>
 
-#include "TQtWidget.h" 
-
-#include "histlist.h"
 #include "querypanel.h"
 #include "statspanel.h"
+#include "plotpanel.h"
 
 
 class MainWindow : public QMainWindow
@@ -41,19 +39,13 @@ private:
     QSqlQueryModel *model;
     QueryPanel *query_panel;
     StatsPanel *stats_panel;
-
-    HistList *plotConfig;
-    TQtWidget *plotView;
-    QPushButton *showPlotButton;
-    QPushButton *addPlotButton;
+    PlotPanel *plot_panel;
     
     QString dbhost;
     int dbport;
     QString dbname;
     QString dbuser;
     QString dbpasswd;
-
-    std::vector<TObject*> objectsToPlot;
 
 };
 

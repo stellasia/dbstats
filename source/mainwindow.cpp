@@ -17,8 +17,6 @@
 
 #include "mainwindow.h"
 #include "dialognewconnection.h"
-#include "dialognewplot.h"
-#include "histitem.h"
 
 
 MainWindow::MainWindow() {
@@ -33,13 +31,8 @@ MainWindow::MainWindow() {
 	    this, 
 	    SLOT(onModelUpdate(QSqlQueryModel *)));
 
-    plotConfig = new HistList;
-    plotView = new TQtWidget(0, "");
-    showPlotButton = new QPushButton(tr("Show/Update plot"));
-    addPlotButton = new QPushButton(tr("Add Plot"));
 
-    connect(showPlotButton, SIGNAL(clicked()), this, SLOT(showPlot()));
-    connect(addPlotButton, SIGNAL(clicked()), this, SLOT(addPlot()));
+    plot_panel = new PlotPanel;
 
     QWidget *centralWidget = new QWidget;
 
@@ -47,12 +40,7 @@ MainWindow::MainWindow() {
     leftLayout->addWidget(query_panel);
     leftLayout->addWidget(stats_panel);
     QVBoxLayout *rightLayout = new QVBoxLayout;
-    rightLayout->addWidget(plotConfig);
-    QHBoxLayout *plot_config = new QHBoxLayout;
-    plot_config->addWidget(addPlotButton);
-    plot_config->addWidget(showPlotButton);
-    rightLayout->addLayout(plot_config);
-    rightLayout->addWidget(plotView);
+    rightLayout->addWidget(plot_panel);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addLayout(leftLayout);
@@ -109,15 +97,15 @@ void MainWindow::connect2db() {
 }
 
 void MainWindow::showPlot() {
-    gStyle->SetOptTitle(0);
-    plotView->GetCanvas()->cd(); 
-    for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
-	if (i==0)
-	    objectsToPlot[i]->Draw("AP");
-	else
-	    objectsToPlot[i]->Draw("P same");
-    }
-    plotView->GetCanvas()->Update(); 
+    // gStyle->SetOptTitle(0);
+    // plotView->GetCanvas()->cd(); 
+    // for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
+    // 	if (i==0)
+    // 	    objectsToPlot[i]->Draw("AP");
+    // 	else
+    // 	    objectsToPlot[i]->Draw("P same");
+    // }
+    // plotView->GetCanvas()->Update(); 
 }
 
 bool MainWindow::createConnection() {
@@ -150,36 +138,36 @@ void MainWindow::saveProject() {
 }
 
 void MainWindow::savePlotAs() {
-    QString filename = QFileDialog::getSaveFileName(this, 
-						    tr("Select a file..."), 
-						    QDir::homePath()
-						    );
-    if (filename == "")
-	return;
-    plotView->GetCanvas()->SaveAs(filename.toStdString().c_str()); 
+    // QString filename = QFileDialog::getSaveFileName(this, 
+    // 						    tr("Select a file..."), 
+    // 						    QDir::homePath()
+    // 						    );
+    // if (filename == "")
+    // 	return;
+    // plotView->GetCanvas()->SaveAs(filename.toStdString().c_str()); 
 }
 
 void MainWindow::addPlot() {
-    if (!model)
-	return;
+    // if (!model)
+    // 	return;
 
-    DialogNewPlot *dialog = new DialogNewPlot(model);
-    if (dialog->exec()) {
-	QString plot_type = dialog->get_plot_type();
-	QString x_variable = dialog->get_x_variable();
-	QString y_variable = dialog->get_y_variable();
-	//QString line_color = dialog->get_line_color();
+    // DialogNewPlot *dialog = new DialogNewPlot(model);
+    // if (dialog->exec()) {
+    // 	QString plot_type = dialog->get_plot_type();
+    // 	QString x_variable = dialog->get_x_variable();
+    // 	QString y_variable = dialog->get_y_variable();
+    // 	//QString line_color = dialog->get_line_color();
 
-	if (plot_type=="Histogram")
-	    create_new_histogram(x_variable);
-	else if (plot_type=="Scatter")
-	    create_new_scatter(x_variable, y_variable);
+    // 	if (plot_type=="Histogram")
+    // 	    create_new_histogram(x_variable);
+    // 	else if (plot_type=="Scatter")
+    // 	    create_new_scatter(x_variable, y_variable);
 
-	//addPlotButton();
-    }
+    // 	//addPlotButton();
+    // }
 
-    HistItem *item1 = new HistItem(plotConfig, "Coucou", "Bisosu", false);
-    plotConfig->addItem(item1);
+    // HistItem *item1 = new HistItem(plotConfig, "Coucou", "Bisosu", false);
+    // plotConfig->addItem(item1);
 
 }
 
@@ -189,24 +177,25 @@ void MainWindow::create_new_histogram(QString x_variable) {
 }
 
 void MainWindow::create_new_scatter(QString x_variable, QString y_variable) {
-    int Nobs = model->rowCount();
-    double xvalues[Nobs];
-    double yvalues[Nobs];
-    for (int i = 0; i < Nobs; ++i) {
-        double x = model->record(i).value(x_variable).toDouble();
-        double y = model->record(i).value(y_variable).toDouble();
-    	xvalues[i] = x;
-    	yvalues[i] = y;
-    }
-    TGraph *mygraph; 
-    mygraph  = new TGraph(Nobs,xvalues,yvalues); 
-    mygraph->SetMarkerStyle(20); 
-    mygraph->GetXaxis()->SetTitle(x_variable.toStdString().c_str());
-    mygraph->GetYaxis()->SetTitle(y_variable.toStdString().c_str());
-    objectsToPlot.push_back(mygraph);
+    // int Nobs = model->rowCount();
+    // double xvalues[Nobs];
+    // double yvalues[Nobs];
+    // for (int i = 0; i < Nobs; ++i) {
+    //     double x = model->record(i).value(x_variable).toDouble();
+    //     double y = model->record(i).value(y_variable).toDouble();
+    // 	xvalues[i] = x;
+    // 	yvalues[i] = y;
+    // }
+    // TGraph *mygraph; 
+    // mygraph  = new TGraph(Nobs,xvalues,yvalues); 
+    // mygraph->SetMarkerStyle(20); 
+    // mygraph->GetXaxis()->SetTitle(x_variable.toStdString().c_str());
+    // mygraph->GetYaxis()->SetTitle(y_variable.toStdString().c_str());
+    // objectsToPlot.push_back(mygraph);
 }
 
 
 void MainWindow::onModelUpdate(QSqlQueryModel *model) {
     stats_panel->onModelUpdate(model);
+    plot_panel->onModelUpdate(model);
 }
