@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <QVBoxLayout>
 //#include <QMessageBox>
 
@@ -33,7 +35,17 @@ void PlotConfigSubpanel::onModelUpdate(QSqlQueryModel *pmodel) {
 
 
 void PlotConfigSubpanel::drawPlot() {
-    
+    TObject *obj = NULL;
+    Option_t *opt = NULL;
+
+    obj = plot_config->getObjectOption(opt);
+
+    if (obj == NULL) {
+	std::cout << "obj is still NULL" << std::endl;
+    }
+
+    emit plotChanged(obj, opt);
+
 }
 
 void PlotConfigSubpanel::clearPlot() {

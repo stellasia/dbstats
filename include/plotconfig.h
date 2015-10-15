@@ -5,6 +5,7 @@
 #include <QSqlQueryModel>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QSpinBox>
 #include <QHBoxLayout>
 
 #include <TObject.h>
@@ -16,7 +17,7 @@ class PlotConfig : public QWidget
 
 public:
     PlotConfig(QWidget *parent = 0);
-    void getObjectOption(TObject *, Option_t *);
+    TObject * getObjectOption(Option_t *);
     
 private slots:
     void plotTypeChanged(int);
@@ -27,12 +28,12 @@ public slots:
 private:
     QSqlQueryModel *model;
     QComboBox *plot_type_combo;
-    QLineEdit *x_min_edit;
-    QLineEdit *x_max_edit;
-    QLineEdit *y_min_edit;
-    QLineEdit *y_max_edit;
-    QLineEdit *x_bins_edit;
-    QLineEdit *y_bins_edit;
+    QSpinBox *x_min_edit;
+    QSpinBox *x_max_edit;
+    QSpinBox *y_min_edit;
+    QSpinBox *y_max_edit;
+    QSpinBox *x_bins_edit;
+    QSpinBox *y_bins_edit;
     QComboBox *x_variable_combo;
     QComboBox *y_variable_combo;
 

@@ -7,6 +7,9 @@
 #include <QSqlRecord>
 #include <QFormLayout>
 
+#include <TH1F.h>
+#include <TH2F.h>
+
 #include "plotconfig.h"
 #include "defs.h"
 
@@ -35,12 +38,12 @@ PlotConfig::PlotConfig(QWidget *parent) {
     variables_config->setLayout(variables_layout);
 
     QGroupBox *axes_config = new QGroupBox(tr("Axes"));
-    x_min_edit = new QLineEdit;
-    x_max_edit = new QLineEdit;
-    x_bins_edit = new QLineEdit;
-    y_min_edit = new QLineEdit;
-    y_max_edit = new QLineEdit;
-    y_bins_edit = new QLineEdit;
+    x_min_edit = new QSpinBox;
+    x_max_edit = new QSpinBox;
+    x_bins_edit = new QSpinBox;
+    y_min_edit = new QSpinBox;
+    y_max_edit = new QSpinBox;
+    y_bins_edit = new QSpinBox;
 
     QFormLayout *form_layout = new QFormLayout;
     form_layout->addRow(tr("&Xmin:"), x_min_edit);
@@ -81,10 +84,11 @@ PlotConfig::PlotConfig(QWidget *parent) {
 }
 
 
-void PlotConfig::onModelUpdate(QSqlQueryModel *model) {
+void PlotConfig::onModelUpdate(QSqlQueryModel *pmodel) {
+    model = pmodel;
     QStringList list=QStringList();
-    for (int k=0; k<model->columnCount(); k++) {
-	QString columnName = model->record().fieldName( k );
+    for (int k=0; k<pmodel->columnCount(); k++) {
+	QString columnName = pmodel->record().fieldName( k );
 	list << columnName;
     }
     x_variable_combo->addItems(list);
@@ -105,6 +109,41 @@ void PlotConfig::plotTypeChanged(int index) {
 }
 
 
-void PlotConfig::getObjectOption(TObject *obj, Option_t *opt) {
+TObject* PlotConfig::getObjectOption(Option_t *opt) {
 
+    int x_min = x_min_edit->value();
+    int x_max = x_max_edit->value();
+    int x_bins = x_bins_edit->value();
+    int y_min = y_min_edit->value();
+    int y_max = y_max_edit->value();
+    int y_bins = y_bins_edit->value();    
+
+    QString options = draw_option_edit->text();
+
+    opt = (options.toStdString().c_str());
+
+    QString x_var = x_variable_combo->currentText();
+    QString y_var = x_variable_combo->currentText();
+    
+    int Nobs = model->rowCount();
+
+    if (plot_type_combo->currentIndex() == PLOT_TYPE_TH2) {
+	TH2F *h = new TH2F("h", "h", x_bins, x_min, x_max, y_bins, y_min, y_max);
+	for (int i = 0; i < Nobs; ++i) {
+	    double x = model->record(i).value(x_var).toDouble();
+	    double y = model->record(i).value(y_var).toDouble();
+	    h->Fill(x, y);
+	}
+	//obj = h;
+	return h->Clone();
+    }
+    else {
+	std::cout << "TH1F" << std::endl;
+	TH1F *h = new TH1F("h", "h", x_bins, x_min, x_max);
+	for (int i = 0; i < Nobs; ++i) {
+	    double x = model->record(i).value(x_var).toDouble();
+	    h->Fill(x);
+	}
+	return h->Clone();
+    }
 }

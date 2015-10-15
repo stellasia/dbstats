@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QSqlQueryModel>
 
+#include <TObject.h>
+
 #include "plotconfigsubpanel.h"
 #include "plotdrawingsubpanel.h"
 
@@ -17,6 +19,7 @@ public:
 
 public slots:
     void onModelUpdate(QSqlQueryModel *);
+    void onPlotChange(TObject *, Option_t *);
 
 private:
     QSqlQueryModel *model;

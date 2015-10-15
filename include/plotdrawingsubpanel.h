@@ -17,6 +17,8 @@ public:
 private slots:
     void resetCanvas();
     void saveCanvasAs();
+
+public slots:
     void draw(TObject *, Option_t *option="");
     
 private:

@@ -5,6 +5,8 @@
 #include <QSqlQueryModel>
 #include <QPushButton>
 
+#include <TObject.h>
+
 #include "plotconfig.h"
 
 
@@ -21,6 +23,9 @@ private slots:
 
 public slots:
     void onModelUpdate(QSqlQueryModel *pmodel);
+
+signals:
+    void plotChanged(TObject *, Option_t *);
 
 private:
     QSqlQueryModel *model;
