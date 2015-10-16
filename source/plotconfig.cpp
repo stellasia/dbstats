@@ -85,12 +85,16 @@ PlotConfig::PlotConfig(QWidget *parent) {
 
 
 void PlotConfig::onModelUpdate(QSqlQueryModel *pmodel) {
+    x_variable_combo->clear();
+    y_variable_combo->clear();
+
     model = pmodel;
     QStringList list=QStringList();
     for (int k=0; k<pmodel->columnCount(); k++) {
 	QString columnName = pmodel->record().fieldName( k );
 	list << columnName;
     }
+
     x_variable_combo->addItems(list);
     y_variable_combo->addItems(list);
 }

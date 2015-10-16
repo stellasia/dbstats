@@ -12,7 +12,7 @@ QueryPanel::QueryPanel(QWidget *parent) {
     clear_query_button = new QPushButton(tr("Clear Query"));
 
     connect(run_query_button, SIGNAL(clicked()), this,  SLOT(runQuery()));
-    connect(run_query_button, SIGNAL(clicked()), this,  SLOT(clearQuery()));
+    connect(clear_query_button, SIGNAL(clicked()), this,  SLOT(clearQuery()));
 
     QVBoxLayout *vlayout = new QVBoxLayout;
     vlayout->addWidget(query_edit);
