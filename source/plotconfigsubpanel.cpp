@@ -36,9 +36,11 @@ void PlotConfigSubpanel::onModelUpdate(QSqlQueryModel *pmodel) {
 
 void PlotConfigSubpanel::drawPlot() {
     TObject *obj = NULL;
-    Option_t *opt = NULL;
+    QString opt = "";
 
     plot_config->getObjectOption(&obj, &opt);
+
+    //std::cout << "HERE " << opt.toStdString() << std::endl;
     
     emit plotChanged(obj, opt);
 

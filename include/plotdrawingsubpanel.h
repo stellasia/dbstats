@@ -19,7 +19,7 @@ private slots:
     void saveCanvasAs();
 
 public slots:
-    void draw(TObject *, Option_t *option="");
+    void draw(TObject *, QString option="");
     
 private:
     TQtWidget *canvas;

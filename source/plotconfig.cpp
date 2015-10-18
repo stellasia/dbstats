@@ -113,7 +113,7 @@ void PlotConfig::plotTypeChanged(int index) {
 }
 
 
-void PlotConfig::getObjectOption(TObject **obj, Option_t **opt) {
+void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
 
     int x_min = x_min_edit->value();
     int x_max = x_max_edit->value();
@@ -124,7 +124,7 @@ void PlotConfig::getObjectOption(TObject **obj, Option_t **opt) {
 
     QString options = draw_option_edit->text();
 
-    //opt = *(options.toStdString().c_str());
+    *opt = options; //.toStdString().c_str());
 
     QString x_var = x_variable_combo->currentText();
     QString y_var = x_variable_combo->currentText();

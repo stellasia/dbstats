@@ -11,9 +11,9 @@ PlotPanel::PlotPanel(QWidget *parent) {
     drawing_sub_panel= new PlotDrawingSubpanel;
 
     connect(config_sub_panel,
-	    SIGNAL(plotChanged(TObject *, Option_t *)),
+	    SIGNAL(plotChanged(TObject *, QString)),
 	    this,
-	    SLOT(onPlotChange(TObject *, Option_t *)));
+	    SLOT(onPlotChange(TObject *, QString)));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(config_sub_panel);
@@ -29,6 +29,6 @@ void PlotPanel::onModelUpdate(QSqlQueryModel *pmodel) {
 }
 
 
-void PlotPanel::onPlotChange(TObject *obj, Option_t *opt) {
-    drawing_sub_panel->draw(obj, "");
+void PlotPanel::onPlotChange(TObject *obj, QString opt) {
+    drawing_sub_panel->draw(obj, opt);
 }

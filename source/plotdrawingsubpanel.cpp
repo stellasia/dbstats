@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <QVBoxLayout>
 //#include <QMessageBox>
 #include <QFileDialog>
@@ -42,12 +44,13 @@ void PlotDrawingSubpanel::saveCanvasAs() {
 }
 
 
-void PlotDrawingSubpanel::draw(TObject *obj, Option_t *option) {
+void PlotDrawingSubpanel::draw(TObject *obj, QString option) {
     canvas->GetCanvas()->cd();
     if (obj) {
 	// obj->SetLineWidth(2);
 	// obj->SetLineColor(kBlue);
-	obj->Draw("COLZ");
+	//std::cout << "PLOT " << option.toStdString() << std::endl;
+	obj->Draw(option.toStdString().c_str());
     }
     canvas->GetCanvas()->Update();
 }

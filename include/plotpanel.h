@@ -19,7 +19,7 @@ public:
 
 public slots:
     void onModelUpdate(QSqlQueryModel *);
-    void onPlotChange(TObject *, Option_t *);
+    void onPlotChange(TObject *, QString);
 
 private:
     QSqlQueryModel *model;

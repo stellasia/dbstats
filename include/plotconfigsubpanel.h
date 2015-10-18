@@ -25,7 +25,7 @@ public slots:
     void onModelUpdate(QSqlQueryModel *pmodel);
 
 signals:
-    void plotChanged(TObject *, Option_t *);
+    void plotChanged(TObject *, QString);
 
 private:
     QSqlQueryModel *model;
