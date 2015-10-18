@@ -5,10 +5,12 @@
 #include <QSqlQueryModel>
 #include <QComboBox>
 #include <QLineEdit>
-#include <QSpinBox>
+//#include <QSpinBox>
 #include <QHBoxLayout>
 
 #include <TObject.h>
+
+#include "spinbox.h"
 
 
 class PlotConfig : public QWidget
@@ -28,12 +30,12 @@ public slots:
 private:
     QSqlQueryModel *model;
     QComboBox *plot_type_combo;
-    QSpinBox *x_min_edit;
-    QSpinBox *x_max_edit;
-    QSpinBox *y_min_edit;
-    QSpinBox *y_max_edit;
-    QSpinBox *x_bins_edit;
-    QSpinBox *y_bins_edit;
+    SpinBox *x_min_edit;
+    SpinBox *x_max_edit;
+    SpinBox *y_min_edit;
+    SpinBox *y_max_edit;
+    SpinBox *x_bins_edit;
+    SpinBox *y_bins_edit;
     QComboBox *x_variable_combo;
     QComboBox *y_variable_combo;
 

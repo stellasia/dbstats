@@ -36,13 +36,11 @@ MainWindow::MainWindow() {
     plot_panel = new PlotPanel;
 
     // QWidget *centralWidget = new QWidget;
-
     // QVBoxLayout *leftLayout = new QVBoxLayout;
     // leftLayout->addWidget(query_panel);
     // leftLayout->addWidget(stats_panel);
     // QVBoxLayout *rightLayout = new QVBoxLayout;
     // rightLayout->addWidget(plot_panel);
-
     // QHBoxLayout *mainLayout = new QHBoxLayout;
     // mainLayout->addLayout(leftLayout);
     // mainLayout->addLayout(rightLayout);

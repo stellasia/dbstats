@@ -38,12 +38,12 @@ PlotConfig::PlotConfig(QWidget *parent) {
     variables_config->setLayout(variables_layout);
 
     QGroupBox *axes_config = new QGroupBox(tr("Axes"));
-    x_min_edit = new QSpinBox;
-    x_max_edit = new QSpinBox;
-    x_bins_edit = new QSpinBox;
-    y_min_edit = new QSpinBox;
-    y_max_edit = new QSpinBox;
-    y_bins_edit = new QSpinBox;
+    x_min_edit = new SpinBox(-10000000, 10000000);
+    x_max_edit = new SpinBox(-10000000, 10000000);
+    x_bins_edit = new SpinBox(0, 1000);
+    y_min_edit = new SpinBox(-10000000, 10000000);
+    y_max_edit = new SpinBox(-10000000, 10000000);
+    y_bins_edit = new SpinBox(0, 1000);
 
     QFormLayout *form_layout = new QFormLayout;
     form_layout->addRow(tr("&Xmin:"), x_min_edit);
