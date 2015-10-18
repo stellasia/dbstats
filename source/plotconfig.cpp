@@ -113,7 +113,7 @@ void PlotConfig::plotTypeChanged(int index) {
 }
 
 
-TObject* PlotConfig::getObjectOption(Option_t *opt) {
+void PlotConfig::getObjectOption(TObject **obj, Option_t **opt) {
 
     int x_min = x_min_edit->value();
     int x_max = x_max_edit->value();
@@ -124,7 +124,7 @@ TObject* PlotConfig::getObjectOption(Option_t *opt) {
 
     QString options = draw_option_edit->text();
 
-    opt = (options.toStdString().c_str());
+    //opt = *(options.toStdString().c_str());
 
     QString x_var = x_variable_combo->currentText();
     QString y_var = x_variable_combo->currentText();
@@ -138,16 +138,14 @@ TObject* PlotConfig::getObjectOption(Option_t *opt) {
 	    double y = model->record(i).value(y_var).toDouble();
 	    h->Fill(x, y);
 	}
-	//obj = h;
-	return h->Clone();
+	*obj = h;
     }
     else {
-	std::cout << "TH1F" << std::endl;
 	TH1F *h = new TH1F("h", "h", x_bins, x_min, x_max);
 	for (int i = 0; i < Nobs; ++i) {
 	    double x = model->record(i).value(x_var).toDouble();
 	    h->Fill(x);
 	}
-	return h->Clone();
+	*obj = h;
     }
 }

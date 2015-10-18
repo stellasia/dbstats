@@ -19,7 +19,7 @@ class PlotConfig : public QWidget
 
 public:
     PlotConfig(QWidget *parent = 0);
-    TObject * getObjectOption(Option_t *);
+    void getObjectOption(TObject ** , Option_t **);
     
 private slots:
     void plotTypeChanged(int);

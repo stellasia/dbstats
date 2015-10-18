@@ -38,12 +38,8 @@ void PlotConfigSubpanel::drawPlot() {
     TObject *obj = NULL;
     Option_t *opt = NULL;
 
-    obj = plot_config->getObjectOption(opt);
-
-    if (obj == NULL) {
-	std::cout << "obj is still NULL" << std::endl;
-    }
-
+    plot_config->getObjectOption(&obj, &opt);
+    
     emit plotChanged(obj, opt);
 
 }
@@ -51,6 +47,3 @@ void PlotConfigSubpanel::drawPlot() {
 void PlotConfigSubpanel::clearPlot() {
 
 }
-
-    // connect(showPlotButton, SIGNAL(clicked()), this, SLOT(showPlot()));
-    // connect(addPlotButton, SIGNAL(clicked()), this, SLOT(addPlot()));

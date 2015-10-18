@@ -44,7 +44,10 @@ void PlotDrawingSubpanel::saveCanvasAs() {
 
 void PlotDrawingSubpanel::draw(TObject *obj, Option_t *option) {
     canvas->GetCanvas()->cd();
-    canvas->GetCanvas()->Clear();
-    obj->Draw(option);
+    if (obj) {
+	// obj->SetLineWidth(2);
+	// obj->SetLineColor(kBlue);
+	obj->Draw("COLZ");
+    }
     canvas->GetCanvas()->Update();
 }
