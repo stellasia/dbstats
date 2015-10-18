@@ -10,6 +10,7 @@
 #include <QSqlRecord>
 #include <QFileDialog>
 #include <QDir>
+#include <QSplitter>
 
 #include "TStyle.h"
 #include "TGraph.h" 
@@ -34,19 +35,31 @@ MainWindow::MainWindow() {
 
     plot_panel = new PlotPanel;
 
-    QWidget *centralWidget = new QWidget;
+    // QWidget *centralWidget = new QWidget;
 
-    QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(query_panel);
-    leftLayout->addWidget(stats_panel);
-    QVBoxLayout *rightLayout = new QVBoxLayout;
-    rightLayout->addWidget(plot_panel);
+    // QVBoxLayout *leftLayout = new QVBoxLayout;
+    // leftLayout->addWidget(query_panel);
+    // leftLayout->addWidget(stats_panel);
+    // QVBoxLayout *rightLayout = new QVBoxLayout;
+    // rightLayout->addWidget(plot_panel);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addLayout(leftLayout);
-    mainLayout->addLayout(rightLayout);
-    centralWidget->setLayout(mainLayout);
-    setCentralWidget(centralWidget);
+    // QHBoxLayout *mainLayout = new QHBoxLayout;
+    // mainLayout->addLayout(leftLayout);
+    // mainLayout->addLayout(rightLayout);
+    // centralWidget->setLayout(mainLayout);
+    // setCentralWidget(centralWidget);
+
+
+    QSplitter *split1 = new QSplitter;
+    split1->setOrientation(Qt::Vertical);
+    split1->addWidget(query_panel);
+    split1->addWidget(stats_panel);
+
+    QSplitter *split2 = new QSplitter;
+    split2->addWidget(split1);
+    split2->addWidget(plot_panel);
+
+    setCentralWidget(split2);
 
     setWindowTitle(tr("DBStats: visualize your data!"));
 
