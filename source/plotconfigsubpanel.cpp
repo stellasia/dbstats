@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include <QVBoxLayout>
-//#include <QMessageBox>
 
 #include "plotconfigsubpanel.h"
 
@@ -39,8 +36,6 @@ void PlotConfigSubpanel::drawPlot() {
     QString opt = "";
 
     plot_config->getObjectOption(&obj, &opt);
-
-    //std::cout << "HERE " << opt.toStdString() << std::endl;
     
     emit plotChanged(obj, opt);
 

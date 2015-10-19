@@ -1,5 +1,8 @@
+## These lines produce a seg fault... 
 # GUI specific settings 
 #Gui.Backend:                qt-default
 #Gui.Factory:                qt-default 
+
+#https://root.cern.ch/phpBB3/viewtopic.php?t=13379
 Gui.DefaultFont: qt-default
-echo Coucou
+

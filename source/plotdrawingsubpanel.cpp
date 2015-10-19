@@ -1,7 +1,7 @@
-#include <iostream>
+//#include <iostream>
 
 #include <QVBoxLayout>
-//#include <QMessageBox>
+#include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
 
@@ -14,8 +14,9 @@ PlotDrawingSubpanel::PlotDrawingSubpanel(QWidget *parent) {
     reset_canvas_button = new QPushButton(tr("Reset"));
     save_canvas_as_button = new QPushButton(tr("Save As"));
 
-    connect(reset_canvas_button, SIGNAL(clicked()),
-	    this, SLOT(resetCanvas()));
+    // connect(reset_canvas_button, SIGNAL(clicked()),
+    // 	    this, SLOT(resetCanvas()));
+    connect(reset_canvas_button, SIGNAL(clicked()), canvas, SLOT(Refresh()));
     connect(save_canvas_as_button, SIGNAL(clicked()),
 	    this, SLOT(saveCanvasAs()));
 
@@ -30,7 +31,7 @@ PlotDrawingSubpanel::PlotDrawingSubpanel(QWidget *parent) {
 }
 
 void PlotDrawingSubpanel::resetCanvas() {
-    //canvas->GetCanvas()->ResetDrawn();
+    canvas->Refresh();
 }
 
 void PlotDrawingSubpanel::saveCanvasAs() {
@@ -45,12 +46,15 @@ void PlotDrawingSubpanel::saveCanvasAs() {
 
 
 void PlotDrawingSubpanel::draw(TObject *obj, QString option) {
-    canvas->GetCanvas()->cd();
     if (obj) {
-	// obj->SetLineWidth(2);
-	// obj->SetLineColor(kBlue);
-	//std::cout << "PLOT " << option.toStdString() << std::endl;
+	canvas->cd();
 	obj->Draw(option.toStdString().c_str());
+	canvas->Refresh();
+	update();
     }
-    canvas->GetCanvas()->Update();
+    else {
+	QMessageBox::critical(0, tr("Error"),
+			      tr("Plot could not be created...!"), 
+			      QMessageBox::Ok);
+    }
 }

@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QSqlRecord>
 #include <QFormLayout>
+#include <QMessageBox>
 
 #include <TH1F.h>
 #include <TH2F.h>
@@ -81,6 +82,8 @@ PlotConfig::PlotConfig(QWidget *parent) {
     mainLayout->addWidget(draw_option_config);
     mainLayout->addStretch(1);
     setLayout(mainLayout);
+
+    model = NULL;
 }
 
 
@@ -115,6 +118,13 @@ void PlotConfig::plotTypeChanged(int index) {
 
 void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
 
+    if (!model) {
+	QMessageBox::critical(0, tr("Error"),
+			      tr("No data"), 
+			      QMessageBox::Ok);
+	return;
+    }
+
     int x_min = x_min_edit->value();
     int x_max = x_max_edit->value();
     int x_bins = x_bins_edit->value();
@@ -128,6 +138,7 @@ void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
 
     QString x_var = x_variable_combo->currentText();
     QString y_var = y_variable_combo->currentText();
+
     
     int Nobs = model->rowCount();
 
@@ -140,12 +151,18 @@ void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
 	}
 	*obj = h;
     }
-    else {
+    else if (plot_type_combo->currentIndex() == PLOT_TYPE_TH1) {
 	TH1F *h = new TH1F("h", "h", x_bins, x_min, x_max);
+	h->SetLineWidth(2); // seems to be necessary in order to actually **see** the line
 	for (int i = 0; i < Nobs; ++i) {
 	    double x = model->record(i).value(x_var).toDouble();
 	    h->Fill(x);
 	}
 	*obj = h;
     }
+    else
+	QMessageBox::critical(0, tr("Error"),
+			      tr("No plot type selected!"), 
+			      QMessageBox::Ok);
+
 }
