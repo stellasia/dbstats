@@ -1,20 +1,13 @@
 #include <iostream>
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QMessageBox>
+#include <QApplication>
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
-#include <QLabel>
-#include <QSqlRecord>
 #include <QFileDialog>
 #include <QDir>
+#include <QMessageBox>
 #include <QSplitter>
-
-#include "TStyle.h"
-#include "TGraph.h" 
-#include "TAxis.h" 
 
 #include "mainwindow.h"
 #include "dialognewconnection.h"
@@ -34,19 +27,6 @@ MainWindow::MainWindow() {
 
 
     plot_panel = new PlotPanel;
-
-    // QWidget *centralWidget = new QWidget;
-    // QVBoxLayout *leftLayout = new QVBoxLayout;
-    // leftLayout->addWidget(query_panel);
-    // leftLayout->addWidget(stats_panel);
-    // QVBoxLayout *rightLayout = new QVBoxLayout;
-    // rightLayout->addWidget(plot_panel);
-    // QHBoxLayout *mainLayout = new QHBoxLayout;
-    // mainLayout->addLayout(leftLayout);
-    // mainLayout->addLayout(rightLayout);
-    // centralWidget->setLayout(mainLayout);
-    // setCentralWidget(centralWidget);
-
 
     QSplitter *split1 = new QSplitter;
     split1->setOrientation(Qt::Vertical);
@@ -101,19 +81,6 @@ void MainWindow::connect2db() {
 	query_panel->lock();
 }
 
-void MainWindow::showPlot() {
-    // gStyle->SetOptTitle(0);
-    // plotView->GetCanvas()->cd(); 
-    // for (unsigned int i = 0; i<objectsToPlot.size(); i++) {
-    // 	if (i==0)
-    // 	    objectsToPlot[i]->Draw("AP");
-    // 	else
-    // 	    objectsToPlot[i]->Draw("P same");
-    // }
-    // plotView->GetCanvas()->Update(); 
-}
-
-
 void MainWindow::saveProjectAs() {
     QMessageBox::warning(0, tr("Not yet implemented"),
 			 tr("This action is not yet possible."), 
@@ -135,54 +102,6 @@ void MainWindow::savePlotAs() {
     // 	return;
     // plotView->GetCanvas()->SaveAs(filename.toStdString().c_str()); 
 }
-
-void MainWindow::addPlot() {
-    // if (!model)
-    // 	return;
-
-    // DialogNewPlot *dialog = new DialogNewPlot(model);
-    // if (dialog->exec()) {
-    // 	QString plot_type = dialog->get_plot_type();
-    // 	QString x_variable = dialog->get_x_variable();
-    // 	QString y_variable = dialog->get_y_variable();
-    // 	//QString line_color = dialog->get_line_color();
-
-    // 	if (plot_type=="Histogram")
-    // 	    create_new_histogram(x_variable);
-    // 	else if (plot_type=="Scatter")
-    // 	    create_new_scatter(x_variable, y_variable);
-
-    // 	//addPlotButton();
-    // }
-
-    // HistItem *item1 = new HistItem(plotConfig, "Coucou", "Bisosu", false);
-    // plotConfig->addItem(item1);
-
-}
-
-
-void MainWindow::create_new_histogram(QString x_variable) {
-
-}
-
-void MainWindow::create_new_scatter(QString x_variable, QString y_variable) {
-    // int Nobs = model->rowCount();
-    // double xvalues[Nobs];
-    // double yvalues[Nobs];
-    // for (int i = 0; i < Nobs; ++i) {
-    //     double x = model->record(i).value(x_variable).toDouble();
-    //     double y = model->record(i).value(y_variable).toDouble();
-    // 	xvalues[i] = x;
-    // 	yvalues[i] = y;
-    // }
-    // TGraph *mygraph; 
-    // mygraph  = new TGraph(Nobs,xvalues,yvalues); 
-    // mygraph->SetMarkerStyle(20); 
-    // mygraph->GetXaxis()->SetTitle(x_variable.toStdString().c_str());
-    // mygraph->GetYaxis()->SetTitle(y_variable.toStdString().c_str());
-    // objectsToPlot.push_back(mygraph);
-}
-
 
 void MainWindow::onModelUpdate(QSqlQueryModel *model) {
     stats_panel->onModelUpdate(model);
