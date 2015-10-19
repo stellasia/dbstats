@@ -1,0 +1,5 @@
+# GUI specific settings 
+#Gui.Backend:                qt-default
+#Gui.Factory:                qt-default 
+Gui.DefaultFont: qt-default
+echo Coucou
