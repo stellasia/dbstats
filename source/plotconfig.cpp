@@ -127,7 +127,7 @@ void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
     *opt = options; //.toStdString().c_str());
 
     QString x_var = x_variable_combo->currentText();
-    QString y_var = x_variable_combo->currentText();
+    QString y_var = y_variable_combo->currentText();
     
     int Nobs = model->rowCount();
 
