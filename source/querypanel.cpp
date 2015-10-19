@@ -1,6 +1,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-//#include <QMessageBox>
+#include <QMessageBox>
+#include <QSqlError>
 
 #include "querypanel.h"
 #include "sqlsyntaxhighlighter.h"
@@ -42,6 +43,12 @@ void QueryPanel::runQuery() {
 
     model = new QSqlQueryModel;
     model->setQuery(query);
+
+    if (model->lastError().isValid()) {
+	QMessageBox::critical(0, tr("There might be a problem with your query"),
+			      model->lastError().text(), QMessageBox::Cancel);
+	return;
+    }
 
     emit modelUpdated(model);
 }
