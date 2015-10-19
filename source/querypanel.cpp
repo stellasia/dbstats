@@ -3,6 +3,7 @@
 //#include <QMessageBox>
 
 #include "querypanel.h"
+#include "sqlsyntaxhighlighter.h"
 
 
 QueryPanel::QueryPanel(QWidget *parent) {
@@ -10,6 +11,8 @@ QueryPanel::QueryPanel(QWidget *parent) {
     query_edit = new QPlainTextEdit;
     run_query_button = new QPushButton(tr("Run Query"));
     clear_query_button = new QPushButton(tr("Clear Query"));
+
+    SqlSyntaxHighlighter *highlighter = new SqlSyntaxHighlighter(query_edit->document());
 
     connect(run_query_button, SIGNAL(clicked()), this,  SLOT(runQuery()));
     connect(clear_query_button, SIGNAL(clicked()), this,  SLOT(clearQuery()));
