@@ -4,6 +4,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QIntValidator>
+#include <QSqlDatabase>
+#include <QMessageBox>
 
 #include "dialognewconnection.h"
 
@@ -43,7 +45,7 @@ DialogNewConnection::DialogNewConnection(QWidget *parent) {
 
     ok = new QPushButton(tr("OK"));
     cancel = new QPushButton(tr("Cancel"));
-    connect(ok, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(ok, SIGNAL(clicked()), this, SLOT(openConnection()));
     connect(cancel, SIGNAL(clicked()), this, SLOT(reject()));
 
     QHBoxLayout *buttons = new QHBoxLayout;
@@ -58,6 +60,29 @@ DialogNewConnection::DialogNewConnection(QWidget *parent) {
 
 }
 
+bool DialogNewConnection::openConnection() {
+    QString dbhost = edit_dbhost->text();
+    int dbport = edit_dbport->text().toInt();
+    QString dbname = edit_dbname->text();
+    QString dbuser = edit_dbuser->text();
+    QString dbpasswd = edit_dbpasswd->text();
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+    db.setHostName(dbhost);
+    db.setPort(dbport);
+    db.setDatabaseName(dbname);
+    db.setUserName(dbuser);
+    db.setPassword(dbpasswd);
+    if (!db.open()) {
+	QMessageBox::critical(0, tr("Cannot open database"),
+			      tr("Unable to establish a connection to your database, "
+				 "please check the parameters. \r\n"
+				 "Click Cancel to exit."), QMessageBox::Cancel);	
+	return false;
+    }
+    accept();
+    return true;
+}
 
 QString DialogNewConnection::get_dbhost() {
     return edit_dbhost->text();

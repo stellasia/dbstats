@@ -95,16 +95,10 @@ void MainWindow::initMenu() {
 void MainWindow::connect2db() {
     DialogNewConnection *dialog = new DialogNewConnection(this);
     if (dialog->exec()) {
-        dbhost = dialog->get_dbhost();
-        dbport = dialog->get_dbport().toInt();
-        dbname=dialog->get_dbname();
-        dbuser=dialog->get_dbuser();
-        dbpasswd=dialog->get_dbpasswd();
-        if (createConnection())
-	    query_panel->unlock();
-	else
-	    query_panel->lock();
+	query_panel->unlock();
     }
+    else
+	query_panel->lock();
 }
 
 void MainWindow::showPlot() {
@@ -119,22 +113,6 @@ void MainWindow::showPlot() {
     // plotView->GetCanvas()->Update(); 
 }
 
-bool MainWindow::createConnection() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setHostName(dbhost);
-    db.setPort(dbport);
-    db.setDatabaseName(dbname);
-    db.setUserName(dbuser);
-    db.setPassword(dbpasswd);
-    if (!db.open()) {
-	QMessageBox::critical(0, tr("Cannot open database"),
-			      tr("Unable to establish a connection to your database, "
-				 "please check the parameters. \r\n"
-				 "Click Cancel to exit."), QMessageBox::Cancel);
-	return false;
-    }
-    return true;
-}
 
 void MainWindow::saveProjectAs() {
     QMessageBox::warning(0, tr("Not yet implemented"),

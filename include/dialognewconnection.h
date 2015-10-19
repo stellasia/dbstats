@@ -18,6 +18,9 @@ class DialogNewConnection : public QDialog
     QString get_dbuser();
     QString get_dbpasswd();
     
+ public slots:
+     bool openConnection();
+
  private:
     QPushButton *ok;
     QPushButton *cancel;
