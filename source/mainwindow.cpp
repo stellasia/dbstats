@@ -44,8 +44,7 @@ MainWindow::MainWindow() {
 }
 
 void MainWindow::initMenu() {
-    QMenu *file;
-    file = menuBar()->addMenu(tr("&File"));
+    QMenu *file = menuBar()->addMenu(tr("&File"));
 
     QAction *connectDB = new QAction(tr("Database connection"), this);
     file->addAction(connectDB);
@@ -69,6 +68,24 @@ void MainWindow::initMenu() {
     quit->setShortcut(tr("CTRL+Q"));
     file->addAction(quit);
     connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+
+    QMenu *tools = menuBar()->addMenu(tr("&Tools"));
+
+    QAction *edit_settings = new QAction(tr("Settings"), this);
+    tools->addAction(edit_settings);
+    connect(edit_settings, SIGNAL(triggered()), this, SLOT(editSettings()));
+
+    QMenu *help = menuBar()->addMenu(tr("&?"));
+    QAction *show_help = new QAction(tr("Help"), this);
+    help->addAction(show_help);
+    connect(show_help, SIGNAL(triggered()), this, SLOT(showHelp()));
+    help->addSeparator();
+
+    QAction *show_about = new QAction(tr("About"), this);
+    help->addAction(show_about);
+    connect(show_about, SIGNAL(triggered()), this, SLOT(showAbout()));
+
 
 }
 
@@ -101,6 +118,23 @@ void MainWindow::savePlotAs() {
     // if (filename == "")
     // 	return;
     // plotView->GetCanvas()->SaveAs(filename.toStdString().c_str()); 
+}
+
+void MainWindow::editSettings() {
+    QMessageBox::warning(0, tr("Not yet implemented"),
+			 tr("This action is not yet possible."), 
+			 QMessageBox::Ok);
+}
+
+void MainWindow::showHelp() {
+    QMessageBox::warning(0, tr("Not yet implemented"),
+			 tr("This action is not yet possible."), 
+			 QMessageBox::Ok);
+}
+
+void MainWindow::showAbout() {
+    QMessageBox::about(0, tr("About dbstats"), 
+		       tr("dbstats was developed by Estelle Scifo (aka stellasia).\nIt is based on the Qt and ROOT frameworks. "));
 }
 
 void MainWindow::onModelUpdate(QSqlQueryModel *model) {

@@ -23,6 +23,9 @@ private slots:
     void saveProjectAs();
     void saveProject();
     void savePlotAs();
+    void editSettings();
+    void showHelp();
+    void showAbout();
     void onModelUpdate(QSqlQueryModel *);
 
 private:
