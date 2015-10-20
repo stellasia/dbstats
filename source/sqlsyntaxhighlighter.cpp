@@ -16,7 +16,7 @@ SqlSyntaxHighlighter::SqlSyntaxHighlighter(QTextDocument *parent)
                     << "\\bby\\b" << "\\bpartition\\b" << "\\bover\\b"
                     << "\\blike\\b" << "\\bbetween\\b";
     foreach (const QString &pattern, keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegExp(pattern, Qt::CaseInsensitive);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
