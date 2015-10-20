@@ -30,9 +30,9 @@ PlotConfig::PlotConfig(QWidget *parent) {
 
     QGroupBox *variables_config = new QGroupBox(tr("Variables"));
     x_variable_combo = new QComboBox;
-    x_variable_combo->setMaximumSize(x_variable_combo->sizeHint());
+    //x_variable_combo->setMaximumSize(x_variable_combo->sizeHint());
     y_variable_combo = new QComboBox;
-    y_variable_combo->setMaximumSize(y_variable_combo->sizeHint());
+    //y_variable_combo->setMaximumSize(y_variable_combo->sizeHint());
     QFormLayout *variables_layout = new QFormLayout;
     variables_layout->addRow(tr("X:"), x_variable_combo);
     variables_layout->addRow(tr("Y:"), y_variable_combo);
