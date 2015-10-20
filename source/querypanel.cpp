@@ -40,6 +40,13 @@ void QueryPanel::unlock() {
 
 void QueryPanel::runQuery() {
     QString query = query_edit->toPlainText();
+    query = query.trimmed(); // remove blanks at start and end
+
+    if (! query.startsWith("select", Qt::CaseInsensitive))  {
+	QMessageBox::critical(0, tr("Not a select!"),
+			      "Can only perform a select query, please check yours starts with the 'SELECT' keyword", QMessageBox::Cancel);
+	return;
+    }
 
     model = new QSqlQueryModel;
     model->setQuery(query);
