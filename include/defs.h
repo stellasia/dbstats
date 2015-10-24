@@ -1,8 +1,11 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-const int PLOT_TYPE_NONE = 0;
-const int PLOT_TYPE_TH1 = 1;
-const int PLOT_TYPE_TH2 = 2;
+enum PLOT_TYPE { 
+    NONE = 0, 
+    TH1=1, 
+    TH2=2, 
+    TGraph=3
+};
 
 #endif

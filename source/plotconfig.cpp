@@ -18,9 +18,9 @@
 PlotConfig::PlotConfig(QWidget *parent) {
     QGroupBox *plot_type_config = new QGroupBox(tr("Plot type"));
     plot_type_combo = new QComboBox;
-    plot_type_combo->insertItem(PLOT_TYPE_NONE, tr("Select a plot type"));
-    plot_type_combo->insertItem(PLOT_TYPE_TH1, tr("1D histogram"));
-    plot_type_combo->insertItem(PLOT_TYPE_TH2, tr("2D histogram"));
+    plot_type_combo->insertItem(PLOT_TYPE::NONE, tr("Select a plot type"));
+    plot_type_combo->insertItem(PLOT_TYPE::TH1, tr("1D histogram"));
+    plot_type_combo->insertItem(PLOT_TYPE::TH2, tr("2D histogram"));
     connect(plot_type_combo, 
 	    SIGNAL(currentIndexChanged(int)), 
 	    this, SLOT(plotTypeChanged(int)));
@@ -103,7 +103,7 @@ void PlotConfig::onModelUpdate(QSqlQueryModel *pmodel) {
 }
 
 void PlotConfig::plotTypeChanged(int index) {
-    if (plot_type_combo->currentIndex() == PLOT_TYPE_TH2) {
+    if (plot_type_combo->currentIndex() == PLOT_TYPE::TH2) {
 	// hide second axis specific informations
 	y_variable_combo->show();
 	y_bins_edit->show();
@@ -142,7 +142,7 @@ void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
     
     int Nobs = model->rowCount();
 
-    if (plot_type_combo->currentIndex() == PLOT_TYPE_TH2) {
+    if (plot_type_combo->currentIndex() == PLOT_TYPE::TH2) {
 	TH2F *h = new TH2F("h", "h", x_bins, x_min, x_max, y_bins, y_min, y_max);
 	for (int i = 0; i < Nobs; ++i) {
 	    double x = model->record(i).value(x_var).toDouble();
@@ -151,7 +151,7 @@ void PlotConfig::getObjectOption(TObject **obj, QString *opt) {
 	}
 	*obj = h;
     }
-    else if (plot_type_combo->currentIndex() == PLOT_TYPE_TH1) {
+    else if (plot_type_combo->currentIndex() == PLOT_TYPE::TH1) {
 	TH1F *h = new TH1F("h", "h", x_bins, x_min, x_max);
 	h->SetLineWidth(2); // seems to be necessary in order to actually **see** the line
 	for (int i = 0; i < Nobs; ++i) {
