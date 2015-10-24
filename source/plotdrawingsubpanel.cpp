@@ -50,7 +50,12 @@ void PlotDrawingSubpanel::draw(TObject *obj, QString option) {
 	canvas->cd();
 	obj->Draw(option.toStdString().c_str());
 	canvas->Refresh();
-	update();
+	// Resizing is the only way I found so far
+	// to force the TQtWidget updatem!
+	int new_width = (this->geometry().width() % 2 == 0 ? 
+			 this->geometry().width()+1 : 
+			 this->geometry().width()-1);
+	this->resize(new_width, this->geometry().height());
     }
     else {
 	QMessageBox::critical(0, tr("Error"),
