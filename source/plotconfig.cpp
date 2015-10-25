@@ -15,9 +15,9 @@
 #include "defs.h"
 
 
-PlotConfig::PlotConfig(QWidget *parent) {
+PlotConfig::PlotConfig(QWidget *parent) : QWidget(parent) {
     QGroupBox *plot_type_config = new QGroupBox(tr("Plot type"));
-    plot_type_combo = new QComboBox;
+    plot_type_combo = new QComboBox(this);
     plot_type_combo->insertItem(PLOT_TYPE::NONE, tr("Select a plot type"));
     plot_type_combo->insertItem(PLOT_TYPE::TH1, tr("1D histogram"));
     plot_type_combo->insertItem(PLOT_TYPE::TH2, tr("2D histogram"));
@@ -29,9 +29,9 @@ PlotConfig::PlotConfig(QWidget *parent) {
     plot_type_config->setLayout(plot_type_layout);
 
     QGroupBox *variables_config = new QGroupBox(tr("Variables"));
-    x_variable_combo = new QComboBox;
+    x_variable_combo = new QComboBox(this);
     //x_variable_combo->setMaximumSize(x_variable_combo->sizeHint());
-    y_variable_combo = new QComboBox;
+    y_variable_combo = new QComboBox(this);
     //y_variable_combo->setMaximumSize(y_variable_combo->sizeHint());
     QFormLayout *variables_layout = new QFormLayout;
     variables_layout->addRow(tr("X:"), x_variable_combo);
@@ -69,7 +69,7 @@ PlotConfig::PlotConfig(QWidget *parent) {
     style_config->setLayout(style_layout);
 
     QGroupBox *draw_option_config = new QGroupBox(tr("Draw option"));
-    draw_option_edit = new QLineEdit;
+    draw_option_edit = new QLineEdit(this);
     QFormLayout *draw_option_layout = new QFormLayout;
     draw_option_layout->addRow(tr("Draw option:"), draw_option_edit);
     draw_option_config->setLayout(draw_option_layout);

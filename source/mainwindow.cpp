@@ -17,8 +17,8 @@ MainWindow::MainWindow() {
     
     initMenu();
     
-    query_panel = new QueryPanel;
-    stats_panel = new StatsPanel;
+    query_panel = new QueryPanel(this);
+    stats_panel = new StatsPanel(this);
 
     connect(query_panel, 
 	    SIGNAL(modelUpdated(QSqlQueryModel *)), 
@@ -26,7 +26,11 @@ MainWindow::MainWindow() {
 	    SLOT(onModelUpdate(QSqlQueryModel *)));
 
 
-    plot_panel = new PlotPanel;
+    plot_panel = new PlotPanel(this);
+
+    // Default behaviour is disabled
+    query_panel->setEnabled(false);
+    plot_panel->setEnabled(false);
 
     QSplitter *split1 = new QSplitter;
     split1->setOrientation(Qt::Vertical);
@@ -86,16 +90,18 @@ void MainWindow::initMenu() {
     help->addAction(show_about);
     connect(show_about, SIGNAL(triggered()), this, SLOT(showAbout()));
 
-
 }
 
 void MainWindow::connect2db() {
     DialogNewConnection *dialog = new DialogNewConnection(this);
     if (dialog->exec()) {
-	query_panel->unlock();
+	query_panel->setEnabled(true);
+	plot_panel->setEnabled(true);
     }
-    else
-	query_panel->lock();
+    else {
+	query_panel->setEnabled(false);
+	plot_panel->setEnabled(false);
+    }
 }
 
 void MainWindow::saveProjectAs() {

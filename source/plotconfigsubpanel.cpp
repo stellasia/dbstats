@@ -3,11 +3,11 @@
 #include "plotconfigsubpanel.h"
 
 
-PlotConfigSubpanel::PlotConfigSubpanel(QWidget *parent) {
+PlotConfigSubpanel::PlotConfigSubpanel (QWidget* parent) : QWidget(parent) {
 
-    plot_config = new PlotConfig;
-    clear_plot_button = new QPushButton(tr("Clear"));
-    draw_plot_button = new QPushButton(tr("Draw"));
+    plot_config = new PlotConfig(this);
+    clear_plot_button = new QPushButton(tr("Clear"), this);
+    draw_plot_button = new QPushButton(tr("Draw"), this);
 
     connect(clear_plot_button, SIGNAL(clicked()),
 	    this, SLOT(clearPlot()));

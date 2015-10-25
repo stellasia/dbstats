@@ -8,7 +8,7 @@
 #include "plotdrawingsubpanel.h"
 
 
-PlotDrawingSubpanel::PlotDrawingSubpanel(QWidget *parent) {
+PlotDrawingSubpanel::PlotDrawingSubpanel(QWidget *parent) : QWidget(parent) {
 
     canvas = new TQtWidget(0, "");
     reset_canvas_button = new QPushButton(tr("Reset"));

@@ -6,6 +6,8 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 
+#include "sqlsyntaxhighlighter.h"
+
 
 class QueryPanel : public QWidget
 {
@@ -13,8 +15,6 @@ class QueryPanel : public QWidget
 
  public:
     QueryPanel(QWidget *parent = 0);
-    void lock();
-    void unlock();
 
  public slots:
      void runQuery();
@@ -28,7 +28,8 @@ class QueryPanel : public QWidget
      QPlainTextEdit *query_edit;
      QPushButton *run_query_button;
      QPushButton *clear_query_button;
-
+     SqlSyntaxHighlighter *highlighter;
+     
 };
 
 #endif

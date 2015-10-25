@@ -4,7 +4,7 @@
 #include "statspanel.h"
 
 
-StatsPanel::StatsPanel(QWidget *parent) {
+StatsPanel::StatsPanel(QWidget *parent) : QWidget(parent) {
 
     tabs = new QTabWidget;
     result_view = new QTableView;

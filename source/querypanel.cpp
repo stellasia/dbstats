@@ -1,25 +1,38 @@
+#include <iostream>
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QGroupBox>
+#include <QSqlQuery>
 
 #include "querypanel.h"
-#include "sqlsyntaxhighlighter.h"
 
 
-QueryPanel::QueryPanel(QWidget *parent) {
+QueryPanel::QueryPanel(QWidget *parent) : QWidget(parent) {
 
-    query_edit = new QPlainTextEdit;
-    run_query_button = new QPushButton(tr("Run Query"));
-    clear_query_button = new QPushButton(tr("Clear Query"));
+    QGroupBox *gb = new QGroupBox(tr("SQL query"));
+    query_edit = new QPlainTextEdit(this);
+    query_edit->setPlainText(tr("-- You must connect to a database to start writing a query.\n --(File > Database connection) \n --Or see the help menu."));
+    query_edit->setObjectName("query_edit");
 
-    SqlSyntaxHighlighter *highlighter = new SqlSyntaxHighlighter(query_edit->document());
+    highlighter = new SqlSyntaxHighlighter(query_edit->document());
+
+    run_query_button = new QPushButton(tr("Run Query"), this);
+    run_query_button->setObjectName("run_query_button");
+    clear_query_button = new QPushButton(tr("Clear Query"), this);
+    clear_query_button->setObjectName("clear_query_button");
 
     connect(run_query_button, SIGNAL(clicked()), this,  SLOT(runQuery()));
     connect(clear_query_button, SIGNAL(clicked()), this,  SLOT(clearQuery()));
 
+    QVBoxLayout *vl = new QVBoxLayout;
+    vl->addWidget(query_edit);
+    gb->setLayout(vl);
+
     QVBoxLayout *vlayout = new QVBoxLayout;
-    vlayout->addWidget(query_edit);
+    vlayout->addWidget(gb);
     QHBoxLayout *blayout = new QHBoxLayout;
     blayout->addWidget(clear_query_button);
     blayout->addWidget(run_query_button);
@@ -27,22 +40,20 @@ QueryPanel::QueryPanel(QWidget *parent) {
 
     setLayout(vlayout);
 
+    // QObjectList pList = this->children();
+    // for (int i =0; i<pList.size(); i++)
+    // 	std::cout << pList.at(i)->objectName().toStdString() << std::endl;
+
+    //this->lock();
+
 }
 
-
-void QueryPanel::lock() {
-    query_edit->setReadOnly(true); 
-}
-
-void QueryPanel::unlock() {
-    query_edit->setReadOnly(false); 
-}
 
 void QueryPanel::runQuery() {
-    QString query = query_edit->toPlainText();
-    query = query.trimmed(); // remove blanks at start and end
-
-    if (! query.startsWith("select", Qt::CaseInsensitive))  {
+    QString q = query_edit->toPlainText();
+    QSqlQuery query (q);
+	
+    if (! query.isSelect())  {
 	QMessageBox::critical(0, tr("Not a select!"),
 			      "Can only perform a select query, please check yours starts with the 'SELECT' keyword", QMessageBox::Cancel);
 	return;
@@ -63,3 +74,4 @@ void QueryPanel::runQuery() {
 void QueryPanel::clearQuery() {
     query_edit->clear();
 }
+

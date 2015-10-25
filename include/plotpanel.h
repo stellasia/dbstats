@@ -16,6 +16,8 @@ class PlotPanel : public QWidget
 
 public:
     PlotPanel(QWidget *parent = 0);
+    void lock();
+    void unlock();
 
 public slots:
     void onModelUpdate(QSqlQueryModel *);

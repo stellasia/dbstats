@@ -16,7 +16,7 @@ class PlotConfigSubpanel : public QWidget
 
 public:
     PlotConfigSubpanel(QWidget *parent = 0);
-
+    
 private slots:
     void drawPlot();
     void clearPlot();
