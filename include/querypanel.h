@@ -5,6 +5,7 @@
 #include <QSqlQueryModel>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QEvent>
 
 #include "sqlsyntaxhighlighter.h"
 
@@ -19,6 +20,7 @@ class QueryPanel : public QWidget
  public slots:
      void runQuery();
      void clearQuery();
+     void changeEvent(QEvent * );
 
  signals:
      void modelUpdated(QSqlQueryModel *);

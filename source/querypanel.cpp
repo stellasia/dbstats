@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QGroupBox>
 #include <QSqlQuery>
+#include <QTextCursor>
 
 #include "querypanel.h"
 
@@ -14,7 +15,7 @@ QueryPanel::QueryPanel(QWidget *parent) : QWidget(parent) {
 
     QGroupBox *gb = new QGroupBox(tr("SQL query"));
     query_edit = new QPlainTextEdit(this);
-    query_edit->setPlainText(tr("-- You must connect to a database to start writing a query.\n --(File > Database connection) \n --Or see the help menu."));
+    query_edit->setPlainText(tr("-- You must connect to a database to start writing a query.\n --(File > Database connection) \n --Or see the help menu.\n\n"));
     query_edit->setObjectName("query_edit");
 
     highlighter = new SqlSyntaxHighlighter(query_edit->document());
@@ -75,3 +76,15 @@ void QueryPanel::clearQuery() {
     query_edit->clear();
 }
 
+
+void QueryPanel::changeEvent(QEvent * e) {
+    if (e->type() == QEvent::EnabledChange) {
+	if (isEnabled()) {
+	    query_edit->setFocus();
+	    QTextCursor cursor(query_edit->textCursor());
+	    cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+	    query_edit->setTextCursor(cursor);
+	}
+    }
+    e->accept();
+}
