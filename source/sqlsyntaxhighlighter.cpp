@@ -14,6 +14,7 @@ SqlSyntaxHighlighter::SqlSyntaxHighlighter(QTextDocument *parent)
                     << "\\blateral\\b" << "\\bwhere\\b" << "\\band\\b"
                     << "\\bor\\b" << "\\border\\b" << "\\bgroup\\b"
                     << "\\bby\\b" << "\\bpartition\\b" << "\\bover\\b"
+                    << "\\bis\\b" << "\\bnot\\b" << "\\bnull\\b"
                     << "\\blike\\b" << "\\bbetween\\b";
     foreach (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegExp(pattern, Qt::CaseInsensitive);
